@@ -5,7 +5,7 @@
         <section class="p-10">
             <div class="w-full flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold">Users</h1>
+                    <h1 class="text-2xl font-bold">Products</h1>
                 </div>
 
                 <div>
@@ -20,9 +20,9 @@
             </div>
 
             <div class="mt-10">
-                <a href="{{ route('admin.users.create-view') }}"
+                <a href="{{ route('admin.products.create-view') }}"
                     class="btn text-green-600 px-3 py-1 border border-green-600 hover:scale-110 transition-all duration-200">
-                    Tambah User
+                    Tambah Product
                 </a>
             </div>
 
@@ -30,25 +30,23 @@
                 <table class="w-full table-auto border-collapse">
                     <thead>
                         <tr class="bg-zinc-800 text-white">
-                            <th class="px-6 py-3 text-left text-sm font-medium">Username</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Nama</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Role</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium">Nama Product</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium">Harga Product</th>
                             <th class="px-6 py-3 text-left text-sm font-medium">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-zinc-50">
-                        @foreach ($users as $user)
+                        @foreach ($products as $product)
                             <tr class="border-b hover:bg-zinc-100">
-                                <td class="px-6 py-3 text-sm text-zinc-700">{{ $user->username }}</td>
-                                <td class="px-6 py-3 text-sm text-zinc-700">{{ $user->name }}</td>
-                                <td class="px-6 py-3 text-sm text-zinc-700">{{ $user->role }}</td>
+                                <td class="px-6 py-3 text-sm text-zinc-700">{{ $product->nama_product }}</td>
+                                <td class="px-6 py-3 text-sm text-zinc-700">Rp {{ number_format($product->harga_product, 0, ',', '.') }}</td>
                                 <td class="px-6 py-3 text-sm">
                                     <div class="flex gap-2">
-                                        <a href="{{ route('admin.users.edit', $user->id) }}"
+                                        <a href="{{ route('admin.products.edit', $product->id) }}"
                                             class="text-indigo-600 hover:underline">
                                             Edit
                                         </a>
-                                        <form method="POST" action="{{ route('admin.users.delete', $user->id) }}">
+                                        <form method="POST" action="{{ route('admin.products.delete', $product->id) }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:underline">

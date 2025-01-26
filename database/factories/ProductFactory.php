@@ -17,7 +17,8 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nama_product' => $this->faker->word(),
+            'harga_product' => $this->faker->randomNumber(6),
         ];
     }
 }

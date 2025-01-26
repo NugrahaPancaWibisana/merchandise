@@ -6,18 +6,18 @@ use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // Menampilkan halaman tambah pengguna
-    public function addUserView(): View
+    public function createUserView(): View
     {
-        return view('pages.admin.add-user');
+        return view('pages.admin.create-user');
     }
 
     // Proses tambah pengguna
-    public function addUser(Request $request): RedirectResponse
+    public function createUser(Request $request): RedirectResponse
     {
         $request->validate([
             'username' => ['required', 'string', 'max:255', 'unique:users'],
@@ -70,9 +70,10 @@ class UserController extends Controller
 
     // Menampilkan daftar pengguna
     public function listUsers(): View
-    {
-        $users = User::all();
+{
+    $users = User::where('id', '!=', Auth::id())->get();
 
-        return view('pages.admin.users', compact('users'));
-    }
+    return view('pages.admin.users', compact('users'));
+}
+
 }

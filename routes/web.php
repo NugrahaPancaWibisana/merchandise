@@ -10,9 +10,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:ADMIN'])->grou
 
     // Users routes
     Route::get('/users', [Controllers\UserController::class, 'listUsers'])->name('users.index');
-    Route::get('/users/add', [Controllers\UserController::class, 'addUserView'])->name('users.add-view');
-    Route::post('/users/add', [Controllers\UserController::class, 'addUser'])->name('users.add');
+    Route::get('/users/create', [Controllers\UserController::class, 'createUserView'])->name('users.create-view');
+    Route::post('/users/create', [Controllers\UserController::class, 'createUser'])->name('users.create');
     Route::get('/users/{user}/edit', [Controllers\UserController::class, 'editUserView'])->name('users.edit');
     Route::put('/users/{user}', [Controllers\UserController::class, 'editUser'])->name('users.update');
     Route::delete('/users/{user}', [Controllers\UserController::class, 'deleteUser'])->name('users.delete');
+
+    // Products routes
+    Route::get('/products', [Controllers\ProductController::class, 'listProducts'])->name('products.index');
+    Route::get('/products/create', [Controllers\ProductController::class, 'createProductView'])->name('products.create-view');
+    Route::post('/products/create', [Controllers\ProductController::class, 'createProduct'])->name('products.create');
+    Route::get('/products/{product}/edit', [Controllers\ProductController::class, 'editProductView'])->name('products.edit');
+    Route::put('/products/{product}', [Controllers\ProductController::class, 'editProduct'])->name('products.update');
+    Route::delete('/products/{product}', [Controllers\ProductController::class, 'deleteProduct'])->name('products.delete');
 });
