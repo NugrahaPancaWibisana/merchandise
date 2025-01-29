@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,21 @@ class AuthenticationController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
+            if (Auth::user()->status !== 'ACTIVE') {
+                Auth::logout();
+
+                return back()->withErrors([
+                    'status' => 'Akun anda tidak aktif.'
+                ]);
+            }
+
+            if (Auth::user()->role !== 'OWNER') {
+                Log::create([
+                    'user_id' => Auth::id(),
+                    'activity' => 'Berhasil Login',
+                ]);
+            }
+
             if (Auth::user()->role == 'ADMIN') {
                 return redirect()->route('admin.dashboard')->with('success', 'Selamat datang administrator');
             }
@@ -56,6 +72,13 @@ class AuthenticationController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
+        if (Auth::user()->role !== 'OWNER') {
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Berhasil Logout',
+            ]);
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();

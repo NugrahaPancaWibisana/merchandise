@@ -1,43 +1,43 @@
 <x-layout>
     <main class="flex justify-center items-center w-full h-screen bg-gray-100">
         <section
-            class="flex flex-col w-[90%] md:w-[50%] lg:w-[30%] h-[50%] bg-white rounded-xl border-2 border-gray-700 shadow-md">
-            <form class="w-full h-full p-5 flex flex-col items-center justify-center gap-10" action="/" method="post">
+            class="flex flex-col w-[90%] md:w-[50%] lg:w-[30%] p-8 bg-white rounded-xl border border-gray-300 shadow-md">
+            <form class="w-full flex flex-col gap-6" action="{{ route('login') }}" method="post">
                 @csrf
 
-                <div class="flex flex-col items-center gap-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24"
-                        fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M10.802 3.03856C10.284 3.2528 9.66052 3.57917 8.7708 4.04608L6.7708 5.09563C5.68111 5.66747 4.91553 6.07032 4.34352 6.45232C3.78727 6.8238 3.46587 7.14296 3.24367 7.5203C3.02022 7.89978 2.88974 8.35061 2.82106 9.04778C2.75084 9.7606 2.75 10.6644 2.75 11.9415V12.0585C2.75 13.3356 2.75084 14.2394 2.82106 14.9522C2.88974 15.6494 3.02022 16.1002 3.24367 16.4797C3.46587 16.857 3.78727 17.1762 4.34352 17.5477C4.91553 17.9297 5.68111 18.3325 6.7708 18.9044L8.7708 19.9539C9.66052 20.4208 10.284 20.7472 10.802 20.9614C11.3062 21.17 11.6605 21.25 12 21.25C12.3395 21.25 12.6938 21.17 13.198 20.9614C13.716 20.7472 14.3395 20.4208 15.2292 19.9539L17.2292 18.9044C18.3189 18.3325 19.0845 17.9297 19.6565 17.5477C20.2127 17.1762 20.5341 16.857 20.7563 16.4797C21.0728 15.9423 21.1981 15.2742 21.2347 13.9788C21.2464 13.5648 21.5915 13.2386 22.0055 13.2503C22.4196 13.262 22.7458 13.6071 22.7341 14.0212C22.6966 15.348 22.5725 16.3516 22.0489 17.2408C21.6737 17.878 21.1585 18.3484 20.4895 18.7951C19.8438 19.2263 19.0076 19.6651 17.9626 20.2135L15.8951 21.2985C15.0437 21.7453 14.3599 22.1041 13.7712 22.3476C13.1616 22.5997 12.6047 22.75 12 22.75C11.3953 22.75 10.8384 22.5997 10.2288 22.3476C9.64007 22.1041 8.9563 21.7453 8.10486 21.2985L6.03733 20.2135C4.99238 19.6651 4.15615 19.2263 3.51047 18.7951C2.84154 18.3484 2.32632 17.878 1.95112 17.2408C1.57718 16.6058 1.40896 15.9182 1.32829 15.0993C1.24998 14.3044 1.24999 13.3268 1.25 12.0974V11.9026C1.24999 10.6732 1.24998 9.69558 1.32829 8.90072C1.40896 8.08184 1.57718 7.39421 1.95112 6.75918C2.32632 6.12201 2.84154 5.65164 3.51047 5.20491C4.15616 4.77371 4.99242 4.33487 6.03739 3.78651L8.1049 2.70153C8.95633 2.25471 9.64008 1.89588 10.2288 1.65242C10.8384 1.40029 11.3953 1.25 12 1.25C12.6047 1.25 13.1616 1.40029 13.7712 1.65242C14.3599 1.89589 15.0437 2.25472 15.8951 2.70154L17.9626 3.78649C19.0076 4.33486 19.8438 4.7737 20.4895 5.20491C21.1585 5.65164 21.6737 6.12201 22.0489 6.75918C22.5725 7.64839 22.6966 8.65202 22.7341 9.97883C22.7458 10.3929 22.4196 10.738 22.0055 10.7497C21.5915 10.7614 21.2464 10.4352 21.2347 10.0212C21.1981 8.72583 21.0728 8.05772 20.7563 7.5203C20.5341 7.14296 20.2127 6.8238 19.6565 6.45232C19.0845 6.07032 18.3189 5.66748 17.2292 5.09563L15.2292 4.04608C14.3395 3.57917 13.716 3.2528 13.198 3.03856C12.6938 2.83004 12.3395 2.75 12 2.75C11.6605 2.75 11.3062 2.83004 10.802 3.03856Z"
-                            fill="#111111" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M2.32916 7.16457C2.5144 6.79409 2.96491 6.64392 3.33539 6.82916L12 11.1615L20.6646 6.82916C21.0351 6.64392 21.4856 6.79409 21.6708 7.16457C21.8561 7.53505 21.7059 7.98556 21.3354 8.1708L12.75 12.4635V21.5C12.75 21.9142 12.4142 22.25 12 22.25C11.5858 22.25 11.25 21.9142 11.25 21.5V12.4635L2.66457 8.1708C2.29409 7.98556 2.14392 7.53505 2.32916 7.16457Z"
-                            fill="#111111" />
-                    </svg>
-                    <p class="text-2xl font-bold">Masukan akun Anda</p>
+                <div class="text-center">
+                    <p class="text-2xl font-bold">Masukkan Akun Anda</p>
                 </div>
 
-                <div class="w-full flex flex-col gap-5">
-                    <div class="w-full md:px-10 px-2">
-                        <label for="username" class="block text-sm font-bold text-gray-700">Username</label>
-                        <input type="text" name="username" id="username" required
-                            class="border-2 outline-none w-full rounded-md h-[40px] p-2">
-                        <x-input-error :messages="$errors->get('username')" />
-                    </div>
-
-                    <div class="w-full md:px-10 px-2">
-                        <label for="password" class="block text-sm font-bold text-gray-700">Password</label>
-                        <input type="password" name="password" id="password" required
-                            class="border-2 outline-none w-full rounded-md h-[40px] p-2">
-                        <x-input-error :messages="$errors->get('password')" />
-                    </div>
-
-                    <div class="w-full md:px-10 px-2">
-                        <button type="submit"
-                            class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 rounded-md">Masuk</button>
-                    </div>
+                <!-- Username Input -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" name="username" id="username" value="{{ old('username') }}"
+                        class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 @error('username') border-red-500 @enderror">
+                    @error('username')
+                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                <!-- Password Input -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" name="password" id="password"
+                        class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 @error('password') border-red-500 @enderror">
+                    @error('password')
+                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- General Error Message -->
+                @error('status')
+                    <div class="text-sm text-red-500">{{ $message }}</div>
+                @enderror
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700">
+                    Login
+                </button>
             </form>
         </section>
     </main>

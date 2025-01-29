@@ -3,7 +3,7 @@
 
     <main class="w-full h-screen pl-[280px]">
         <section class="p-10">
-            <div class="w-full flex items-center justify-between">
+            <div class="w-full flex items-start justify-between">
                 <div>
                     <h1 class="text-2xl font-bold">Users</h1>
                 </div>
@@ -48,15 +48,28 @@
                                             class="text-indigo-600 hover:underline">
                                             Edit
                                         </a>
-                                        <form method="POST" action="{{ route('admin.users.delete', $user->id) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:underline">
-                                                Hapus
-                                            </button>
-                                        </form>
+                                        @if ($user->status === 'ACTIVE')
+                                            <form method="POST"
+                                                action="{{ route('admin.users.deactivate', $user->id) }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-red-600 hover:underline">
+                                                    Nonaktifkan
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form method="POST"
+                                                action="{{ route('admin.users.activate', $user->id) }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-green-600 hover:underline">
+                                                    Aktifkan
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
+
                             </tr>
                         @endforeach
                     </tbody>

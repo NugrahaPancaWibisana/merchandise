@@ -3,7 +3,7 @@
 
     <main class="w-full h-screen pl-[280px]">
         <section class="p-10">
-            <div class="w-full flex items-center justify-between">
+            <div class="w-full flex items-start justify-between">
                 <div>
                     <h1 class="text-2xl font-bold">Dashboard</h1>
                     <p>Selamat datang, {{ Auth::user()->name }}!</p>

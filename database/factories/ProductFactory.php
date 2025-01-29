@@ -17,7 +17,18 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'nama_product' => $this->faker->word(),
+            'nama_product' => $this->faker->randomElement([
+                'Kaos Band',
+                'Topi Baseball',
+                'Gantungan Kunci Anime',
+                'Mug Custom',
+                'Stiker Vinyl',
+                'Tas Tote',
+                'Sweater Oversize',
+                'Hoodie Zipper',
+                'Pin Kecil',
+                'Poster Limited Edition'
+            ]),
             'harga_product' => $this->faker->randomNumber(6),
         ];
     }

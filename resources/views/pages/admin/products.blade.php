@@ -3,7 +3,7 @@
 
     <main class="w-full h-screen pl-[280px]">
         <section class="p-10">
-            <div class="w-full flex items-center justify-between">
+            <div class="w-full flex items-start justify-between">
                 <div>
                     <h1 class="text-2xl font-bold">Products</h1>
                 </div>
@@ -22,7 +22,7 @@
             <div class="mt-10">
                 <a href="{{ route('admin.products.create-view') }}"
                     class="btn text-green-600 px-3 py-1 border border-green-600 hover:scale-110 transition-all duration-200">
-                    Tambah Product
+                    Tambah Produk
                 </a>
             </div>
 

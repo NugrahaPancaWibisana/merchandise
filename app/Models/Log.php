@@ -11,6 +11,8 @@ class Log extends Model
     /** @use HasFactory<\Database\Factories\LogFactory> */
     use HasFactory;
 
+    protected $fillable = ['user_id', 'activity'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

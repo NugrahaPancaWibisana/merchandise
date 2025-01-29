@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 
 Route::middleware('guest')->group(function () {
-    Route::get('/', [Controllers\AuthenticationController::class, 'loginView']);
+    Route::get('/', [Controllers\AuthenticationController::class, 'loginView'])->name('loginView');
     Route::post('/', [Controllers\AuthenticationController::class, 'login'])->name('login');
 });
 
