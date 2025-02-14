@@ -33,9 +33,7 @@ Route::prefix('owner')->name('owner.')->middleware(['auth', 'role:OWNER'])->grou
 });
 
 Route::prefix('kasir')->name('kasir.')->middleware(['auth', 'role:KASIR'])->group(function () {
-    Route::get('/dashboard', [Controllers\Kasir::class, 'dashboard'])->name('dashboard');
-    Route::get('/transactions', [Controllers\TransactionsController::class, 'listTransactions'])->name('transactions.list');
-    Route::post('/keranjang/tambah', [Controllers\TransactionsController::class, 'tambahKeKeranjang'])->name('keranjang.tambah');
-    Route::post('/keranjang/update-jumlah', [Controllers\TransactionsController::class, 'updateJumlah'])->name('keranjang.updateJumlah');
-    Route::get('/keranjang/ambil-keranjang', [Controllers\TransactionsController::class, 'ambilKeranjang'])->name('keranjang.ambilKeranjang');
+    Route::get('/dashboard', [Controllers\Kasir::class, 'index'])->name('dashboard');
+    Route::post('/transactions', [Controllers\TransactionsController::class, 'store'])->name('transactions.store');
+    Route::get('/transaction/{id}/print', [Controllers\TransactionsController::class, 'print'])->name('transactions.print');
 });

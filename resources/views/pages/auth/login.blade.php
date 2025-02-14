@@ -13,7 +13,7 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
                     <input type="text" name="username" id="username" value="{{ old('username') }}"
-                        class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 @error('username') border-red-500 @enderror">
+                        class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 @error('username') border-red-500 @enderror">
                     @error('username')
                         <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                     @enderror
@@ -23,7 +23,7 @@
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" name="password" id="password"
-                        class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 @error('password') border-red-500 @enderror">
+                        class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 @error('password') border-red-500 @enderror">
                     @error('password')
                         <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                     @enderror
@@ -35,7 +35,7 @@
                 @enderror
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700">
+                <button type="submit" class="w-full bg-pink-400 text-white py-2 rounded-md hover:bg-pink-500">
                     Login
                 </button>
             </form>

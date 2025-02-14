@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
-use Illuminate\View\View;
 
 class Kasir extends Controller
 {
-    public function dashboard(): View
+    public function index()
     {
-        $products = Product::all();
-        return view('pages.kasir.dashboard', compact( 'products'));
+        $categories = Category::all();
+        $products = Product::with('category')->where('stock', '>', 0)->get();
+
+        return view('pages.kasir.dashboard', compact('categories', 'products'));
     }
 }

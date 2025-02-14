@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\TransactionItems;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TransactionsController extends Controller
 {
     public function listTransactions(Request $request)
     {
-        $query = Transaction::with('product');
+        $query = Transaction::with('items.product');
 
         if ($request->has(['start_date', 'end_date']) && $request->start_date && $request->end_date) {
             $query->whereBetween('created_at', [$request->start_date . ' 00:00:00', $request->end_date . ' 23:59:59']);
@@ -21,75 +25,83 @@ class TransactionsController extends Controller
         return view('pages.owner.transactions', compact('transactions'));
     }
 
-    public function tambahKeKeranjang(Request $request)
+    public function store(Request $request)
     {
-        $produk = Product::find($request->id_produk);
-        $keranjang = session()->get('keranjang', []);
-
-        if (isset($keranjang[$request->id_produk])) {
-            $keranjang[$request->id_produk]['jumlah']++;
-        } else {
-            $keranjang[$request->id_produk] = [
-                'nama' => $produk->nama_product,
-                'jumlah' => 1,
-                'harga' => $produk->harga_product,
-                'total' => $produk->harga_product
-            ];
-        }
-
-        session()->put('keranjang', $keranjang);
-
-        return $this->hitungTotalKeranjang();
-    }
-
-    public function updateJumlah(Request $request)
-    {
-        $keranjang = session()->get('keranjang', []);
-
-        if (isset($keranjang[$request->id_produk])) {
-            if ($request->aksi === 'tambah') {
-                $keranjang[$request->id_produk]['jumlah']++;
-            } else if ($request->aksi === 'kurang') {
-                $keranjang[$request->id_produk]['jumlah']--;
-                if ($keranjang[$request->id_produk]['jumlah'] <= 0) {
-                    unset($keranjang[$request->id_produk]);
-                }
-            }
-
-            if (isset($keranjang[$request->id_produk])) {
-                $keranjang[$request->id_produk]['total'] = $keranjang[$request->id_produk]['harga'] * $keranjang[$request->id_produk]['jumlah'];
-            }
-        }
-
-        session()->put('keranjang', $keranjang);
-
-        return $this->hitungTotalKeranjang();
-    }
-
-    public function ambilKeranjang()
-    {
-        return $this->hitungTotalKeranjang();
-    }
-
-    private function hitungTotalKeranjang()
-    {
-        $keranjang = session()->get('keranjang', []);
-        $subtotal = 0;
-        $pajak = 0;
-
-        foreach ($keranjang as $item) {
-            $subtotal += $item['harga'] * $item['jumlah'];
-            $pajak += ($item['harga'] * 0.12) * $item['jumlah']; // Pajak 12% per item
-        }
-
-        $total = $subtotal + $pajak;
-
-        return response()->json([
-            'keranjang' => $keranjang,
-            'subtotal' => $subtotal,
-            'pajak' => $pajak,
-            'total' => $total,
-            'keranjangHtml' => view('components.items-keranjang', compact('keranjang', 'subtotal', 'pajak', 'total'))->render()
+        $request->validate([
+            'nama_pelanggan' => 'required|string|max:45',
+            'uang_bayar' => 'required|numeric',
+            'items' => 'required|array',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|integer|min:1',
         ]);
+
+        try {
+            DB::beginTransaction();
+
+            $total = 0;
+            foreach ($request->items as $item) {
+                $product = Product::findOrFail($item['product_id']);
+
+                if ($product->stock < $item['quantity']) {
+                    throw new \Exception("Stok produk {$product->nama_product} tidak mencukupi");
+                }
+
+                if (!$product->harga_product || $product->harga_product <= 0) {
+                    throw new \Exception("Harga produk {$product->nama_product} tidak valid");
+                }
+
+                $total += $product->harga_product * $item['quantity'];
+            }
+
+            $transaction = Transaction::create([
+                'nama_pelanggan' => $request->nama_pelanggan,
+                'nomor_unik' => 'TRX-' . time(),
+                'uang_bayar' => $request->uang_bayar,
+                'uang_kembali' => $request->uang_bayar - $total,
+            ]);
+
+            foreach ($request->items as $item) {
+                $product = Product::findOrFail($item['product_id']);
+
+                TransactionItems::create([
+                    'transaction_id' => $transaction->id,
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $product->harga_product,
+                    'subtotal' => $product->harga_product * $item['quantity'],
+                ]);
+
+                $product->decrement('stock', $item['quantity']);
+            }
+
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Transaksi berhasil! ' . $transaction->nomor_unik,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Transaksi berhasil',
+                'transaction' => $transaction->load('items.product'),
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 422);
+        }
+    }
+
+    public function print($id)
+    {
+        $transaction = Transaction::with(['items.product'])->findOrFail($id);
+
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Print transaksi berhasil! ' . $transaction->nomor_unik,
+        ]);
+
+        return view('pages.kasir.print', compact('transaction'));
     }
 }

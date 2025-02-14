@@ -37,8 +37,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(200)->create();
 
         $this->call([
+            CategorySeeder::class,
             ProductSeeder::class,
-            TransactionSeeder::class,
         ]);
     }
 }

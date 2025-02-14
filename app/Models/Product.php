@@ -12,8 +12,13 @@ class Product extends Model
 
     protected $guarded = ['id'];
 
-    public function transactions()
+    public function category()
     {
-        return $this->hasMany(Transaction::class, 'id_produk');
+        return $this->belongsTo(Category::class);
+    }
+
+    public function transactionItems()
+    {
+        return $this->hasMany(TransactionItems::class);
     }
 }

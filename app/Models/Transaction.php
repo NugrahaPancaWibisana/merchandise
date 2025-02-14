@@ -10,11 +10,14 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_produk', 'nama_pelanggan', 'nomor_unik', 'uang_bayar', 'uang_kembali'
+        'nama_pelanggan',
+        'nomor_unik',
+        'uang_bayar',
+        'uang_kembali',
     ];
 
-    public function product()
+    public function items()
     {
-        return $this->belongsTo(Product::class, 'id_produk');
+        return $this->hasMany(TransactionItems::class);
     }
 }
